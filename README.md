@@ -6,6 +6,7 @@ coverage.
 To ensure consistency across neural network inputs, each image underwent the following
 pre-processing steps: Intensity normalization, Conversion to NumPy format ,Preparation
 for downstream denoising and CNN inference
+
 3.2 Noise Reduction using Non-Local Means Denoising
 To evaluate how noise influences deep neural networks, the original image was denoised
 using the Non-Local Means (NLM) algorithm from scikit-image. The process involved:
@@ -18,6 +19,7 @@ Original (noisy) CT image, Denoised CT image.These were used for all subsequent
 comparisons.To evaluate denoising performance, pixel-level metrics such as MSE,
 PSNR, and SNR-estimate were computed by comparing the original and denoised
 versions (treating the denoised output as an approximation of the underlying clean signal
+
 3.3 Image Preparation for CNN Processing
 Deep neural networks require fixed-size, multi-channel inputs. Therefore, both original
 and denoised images were converted into model-compatible tensors through the
@@ -28,6 +30,7 @@ following steps:
 ● Applying ImageNet mean–std normalization
 ● Converting to PyTorch tensors and batching
 This ensured compatibility with standard pretrained CNN architectures.
+
 3.4 CNN Model: ResNet-18 Pretrained on ImageNet
 A pretrained ResNet-18 was selected as a feature extractor to study how a deep CNN responds to
 noisy versus denoised CT images. The model was loaded with ImageNet weights and used strictly
@@ -36,6 +39,7 @@ A forward hook was registered on the final convolutional layer of ResNet-18 to e
 Final convolutional feature maps (512 × 7 × 7)
 Model logits and predicted class
 This allowed deeper analysis of the internal CNN representations for both image conditions.
+
 3.5 Model Output Comparison: Logit Difference and
 Feature Maps
 The model’s raw output logits were computed for both original and denoised inputs. The final
@@ -46,6 +50,7 @@ A negative shift indicates the model became less confident after noise removal, 
 noise contributed to its decision-making process.
 Feature maps captured through the forward hook were compared to assess structural differences in
 CNN activation patterns between the two conditions.
+
 3.6 Explainability using Grad-CAM
 To understand how noise influences CNN attention, Grad-CAM was applied to both
 image versions. The method computes the gradient of the output logit with respect to the
@@ -58,6 +63,7 @@ This enabled a direct visual comparison of how the model’s focus shifts after 
 Typically:
 ● Original images showed wider, noisier attention regions
 ● Denoised images showed tighter, anatomically relevant focus
+
 3.7 Experimental Summary
 The complete methodology allowed us to evaluate:
 ● How denoising modifies pixel-level image quality
